@@ -74,53 +74,65 @@ window.onload = function(){
 			bill.init();
 		}
 	})
-	com.get("superPlay").addEventListener("click", function(e) {
-		if (confirm("Xác nhận bắt đầu trò chơi Cấp 2 ?")){
-			play.isPlay=true ;	
-			com.get("chessRight").style.display = "none";
-			com.get("moveInfo").style.display = "block";
-			com.get("moveInfo").innerHTML="";
-			play.depth = 4;
-			play.init();
-		}
+
+	com.get("onePlay").addEventListener("click", function(e) {
+		play.isPlay=true ;	
+		com.get("chessRight").style.display = "none";
+		com.get("moveInfo").style.display = "block";
+		com.get("moveInfo").innerHTML="";
+		play.depth = 1;
+		play.init();
+	})
+	com.get("twoPlay").addEventListener("click", function(e) {
+		play.isPlay=true ;	
+		com.get("chessRight").style.display = "none";
+		com.get("moveInfo").style.display = "block";
+		com.get("moveInfo").innerHTML="";
+		play.depth = 2;
+		play.init();
 	})
 	com.get("tyroPlay").addEventListener("click", function(e) {
-		if (confirm("Xác nhận bắt đầu trò chơi Cấp 1？")){
-			play.isPlay=true ;	
-			com.get("chessRight").style.display = "none";
-			com.get("moveInfo").style.display = "block";
-			com.get("moveInfo").innerHTML="";
-			play.depth = 3;
-			play.init();
-		}
+		play.isPlay=true ;	
+		com.get("chessRight").style.display = "none";
+		com.get("moveInfo").style.display = "block";
+		com.get("moveInfo").innerHTML="";
+		play.depth = 3;
+		play.init();
 	})
-	
-	com.get("stypeBn").addEventListener("click", function(e) {
-		var stype =com.nowStype;
-		if (stype=="stype1") stype="stype2";
-		else if (stype=="stype2") stype="stype1";
-		com.init(stype);
-		com.show();
+	com.get("superPlay").addEventListener("click", function(e) {
+		play.isPlay=true ;	
+		com.get("chessRight").style.display = "none";
+		com.get("moveInfo").style.display = "block";
+		com.get("moveInfo").innerHTML="";
 		play.depth = 4;
 		play.init();
-		document.cookie="stype=" +stype;
-		clearInterval(timer);
-		var i=0;
-		var timer = setInterval(function (){
-			com.show();
-			if (i++>=5) clearInterval(timer);
-		},2000);
+	})
+	com.get("masterPlay").addEventListener("click", function(e) {
+		play.isPlay=true ;	
+		com.get("chessRight").style.display = "none";
+		com.get("moveInfo").style.display = "block";
+		com.get("moveInfo").innerHTML="";
+		play.depth = 5;
+		play.init();
+	})
+	com.get("ultraPlay").addEventListener("click", function(e) {
+		play.isPlay=true ;	
+		com.get("chessRight").style.display = "none";
+		com.get("moveInfo").style.display = "block";
+		com.get("moveInfo").innerHTML="";
+		play.depth = 6;
+		play.init();
 	})
 	
-	com.getData("js/gambit.all.js",
-		function(data){
-		com.gambit=data.split(" ");
-		AI.historyBill = com.gambit;
-	})
-	com.getData("js/store.js",
-		function(data){
-		com.store=data.split(" ");
-	})
+	// com.getData("js/gambit.all.js",
+	// 	function(data){
+	// 	com.gambit=data.split(" ");
+	// 	AI.historyBill = com.gambit;
+	// })
+	// com.getData("js/store.js",
+	// 	function(data){
+	// 	com.store=data.split(" ");
+	// })
 }
 
 
@@ -319,16 +331,15 @@ com.createMove = function (map,x,y,newX,newY){
 }
 
 com.initMap = [
-	['C0','M0','X0','S0','J0','S1','X1','M1','C1'],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,'P0',    ,    ,    ,    ,    ,'P1',    ],
+	['C0',    ,'X0','S0','J0','S1','X1',    ,'C1'],
+	[    ,'P0',    ,'M0',    ,'M1',    ,'P1',    ],
 	['Z0',    ,'Z1',    ,'Z2',    ,'Z3',    ,'Z4'],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	['z0',    ,'z1',    ,'z2',    ,'z3',    ,'z4'],
-	[    ,'p0',    ,    ,    ,    ,    ,'p1',    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	['c0','m0','x0','s0','j0','s1','x1','m1','c1']
+	['z0',    ,'z1',    ,'z2',    ,'z3',    ,'z4'],
+	[    ,'p0',    ,'m0',    ,'m1',    ,'p1',    ],
+	['c0',    ,'x0','s0','j0','s1','x1',    ,'c1']
 ];
 
 
@@ -337,7 +348,6 @@ com.initMap1 = [
 	[    ,    ,    ,, "J0"   ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,"c0",    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
@@ -350,7 +360,6 @@ com.initMap1 = [
 	[    ,    ,    ,, "J0"   ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    , ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,"z0",    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
@@ -414,7 +423,7 @@ com.bylaw.c = function (x,y,map,my){
 	}
 	
 	// Tìm kiếm dưới
-	for (var i = y+1 ; i<= 9; i++){
+	for (var i = y+1 ; i<= 8; i++){
 		if (map[i][x]) {
 			if (com.mans[map[i][x]].my!=my) d.push([x,i]);
 			break
@@ -429,111 +438,160 @@ com.bylaw.c = function (x,y,map,my){
 com.bylaw.m = function (x,y,map,my){
 	var d=[];
 		//1Điểm
-		if ( y-2>= 0 && x+1<= 8 && !play.map[y-1][x] &&(!com.mans[map[y-2][x+1]] || com.mans[map[y-2][x+1]].my!=my)) d.push([x+1,y-2]);
+		if ( y-2>= 0 && x+1<= 8 && (!com.mans[map[y-2][x+1]] || com.mans[map[y-2][x+1]].my!=my)) d.push([x+1,y-2]);
 		//2Điểm
-		if ( y-1>= 0 && x+2<= 8 && !play.map[y][x+1] &&(!com.mans[map[y-1][x+2]] || com.mans[map[y-1][x+2]].my!=my)) d.push([x+2,y-1]);
+		if ( y-1>= 0 && x+2<= 8 && (!com.mans[map[y-1][x+2]] || com.mans[map[y-1][x+2]].my!=my)) d.push([x+2,y-1]);
 		//4Điểm
-		if ( y+1<= 9 && x+2<= 8 && !play.map[y][x+1] &&(!com.mans[map[y+1][x+2]] || com.mans[map[y+1][x+2]].my!=my)) d.push([x+2,y+1]);
+		if ( y+1<= 8 && x+2<= 8 && (!com.mans[map[y+1][x+2]] || com.mans[map[y+1][x+2]].my!=my)) d.push([x+2,y+1]);
 		//5Điểm
-		if ( y+2<= 9 && x+1<= 8 && !play.map[y+1][x] &&(!com.mans[map[y+2][x+1]] || com.mans[map[y+2][x+1]].my!=my)) d.push([x+1,y+2]);
+		if ( y+2<= 8 && x+1<= 8 && (!com.mans[map[y+2][x+1]] || com.mans[map[y+2][x+1]].my!=my)) d.push([x+1,y+2]);
 		//7Điểm
-		if ( y+2<= 9 && x-1>= 0 && !play.map[y+1][x] &&(!com.mans[map[y+2][x-1]] || com.mans[map[y+2][x-1]].my!=my)) d.push([x-1,y+2]);
+		if ( y+2<= 8 && x-1>= 0 && (!com.mans[map[y+2][x-1]] || com.mans[map[y+2][x-1]].my!=my)) d.push([x-1,y+2]);
 		//8Điểm
-		if ( y+1<= 9 && x-2>= 0 && !play.map[y][x-1] &&(!com.mans[map[y+1][x-2]] || com.mans[map[y+1][x-2]].my!=my)) d.push([x-2,y+1]);
+		if ( y+1<= 8 && x-2>= 0 && (!com.mans[map[y+1][x-2]] || com.mans[map[y+1][x-2]].my!=my)) d.push([x-2,y+1]);
 		//10Điểm
-		if ( y-1>= 0 && x-2>= 0 && !play.map[y][x-1] &&(!com.mans[map[y-1][x-2]] || com.mans[map[y-1][x-2]].my!=my)) d.push([x-2,y-1]);
+		if ( y-1>= 0 && x-2>= 0 && (!com.mans[map[y-1][x-2]] || com.mans[map[y-1][x-2]].my!=my)) d.push([x-2,y-1]);
 		//11Điểm
-		if ( y-2>= 0 && x-1>= 0 && !play.map[y-1][x] &&(!com.mans[map[y-2][x-1]] || com.mans[map[y-2][x-1]].my!=my)) d.push([x-1,y-2]);
-
+		if ( y-2>= 0 && x-1>= 0 && (!com.mans[map[y-2][x-1]] || com.mans[map[y-2][x-1]].my!=my)) d.push([x-1,y-2]);
 	return d;
 }
 
 //Tượng
 com.bylaw.x = function (x,y,map,my){
 	var d=[];
-	if (my===1){ //Quân đỏ
-		//4Nửa điểm
-		if ( y+2<= 9 && x+2<= 8 && !play.map[y+1][x+1] && (!com.mans[map[y+2][x+2]] || com.mans[map[y+2][x+2]].my!=my)) d.push([x+2,y+2]);
-		//7Nửa điểm
-		if ( y+2<= 9 && x-2>= 0 && !play.map[y+1][x-1] && (!com.mans[map[y+2][x-2]] || com.mans[map[y+2][x-2]].my!=my)) d.push([x-2,y+2]);
-		//1Nửa điểm
-		if ( y-2>= 5 && x+2<= 8 && !play.map[y-1][x+1] && (!com.mans[map[y-2][x+2]] || com.mans[map[y-2][x+2]].my!=my)) d.push([x+2,y-2]);
-		//10Nửa điểm
-		if ( y-2>= 5 && x-2>= 0 && !play.map[y-1][x-1] && (!com.mans[map[y-2][x-2]] || com.mans[map[y-2][x-2]].my!=my)) d.push([x-2,y-2]);
-	}else{
-		//4Nửa điểm
-		if ( y+2<= 4 && x+2<= 8 && !play.map[y+1][x+1] && (!com.mans[map[y+2][x+2]] || com.mans[map[y+2][x+2]].my!=my)) d.push([x+2,y+2]);
-		//7Nửa điểm
-		if ( y+2<= 4 && x-2>= 0 && !play.map[y+1][x-1] && (!com.mans[map[y+2][x-2]] || com.mans[map[y+2][x-2]].my!=my)) d.push([x-2,y+2]);
-		//1Nửa điểm
-		if ( y-2>= 0 && x+2<= 8 && !play.map[y-1][x+1] && (!com.mans[map[y-2][x+2]] || com.mans[map[y-2][x+2]].my!=my)) d.push([x+2,y-2]);
-		//10Nửa điểm
-		if ( y-2>= 0 && x-2>= 0 && !play.map[y-1][x-1] && (!com.mans[map[y-2][x-2]] || com.mans[map[y-2][x-2]].my!=my)) d.push([x-2,y-2]);
-	}
+	//4Nửa điểm
+	if ( y+2<= 8 && x+2<= 8 && (!com.mans[map[y+2][x+2]] || com.mans[map[y+2][x+2]].my!=my)) d.push([x+2,y+2]);
+	//7Nửa điểm
+	if ( y+2<= 8 && x-2>= 0 && (!com.mans[map[y+2][x-2]] || com.mans[map[y+2][x-2]].my!=my)) d.push([x-2,y+2]);
+	//1Nửa điểm
+	if ( y-2>= 0 && x+2<= 8 && (!com.mans[map[y-2][x+2]] || com.mans[map[y-2][x+2]].my!=my)) d.push([x+2,y-2]);
+	//10Nửa điểm
+	if ( y-2>= 0 && x-2>= 0 && (!com.mans[map[y-2][x-2]] || com.mans[map[y-2][x-2]].my!=my)) d.push([x-2,y-2]);
+
+	if ( x-2>= 0 && (!com.mans[map[y][x-2]] || com.mans[map[y][x-2]].my!=my)) d.push([x-2,y]);
+	if ( x+2<= 8 && (!com.mans[map[y][x+2]] || com.mans[map[y][x+2]].my!=my)) d.push([x+2,y]);
+	if ( y-2>= 0 && (!com.mans[map[y-2][x]] || com.mans[map[y-2][x]].my!=my)) d.push([x,y-2]);
+	if ( y+2<= 8 && (!com.mans[map[y+2][x]] || com.mans[map[y+2][x]].my!=my)) d.push([x,y+2]);
 	return d;
 }
 
 //sỹ
 com.bylaw.s = function (x,y,map,my){
 	var d=[];
-	if (my===1){ //Quân đỏ
-		//4Nửa điểm
-		if ( y+1<= 9 && x+1<= 5 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
-		//7点半
-		if ( y+1<= 9 && x-1>= 3 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
-		//1Nửa điểm
-		if ( y-1>= 7 && x+1<= 5 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
-		//10Nửa điểm
-		if ( y-1>= 7 && x-1>= 3 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
-	}else{
-		//4Nửa điểm
-		if ( y+1<= 2 && x+1<= 5 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
-		//7Nửa điểm
-		if ( y+1<= 2 && x-1>= 3 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
-		//1Nửa điểm
-		if ( y-1>= 0 && x+1<= 5 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
-		//10Nửa điểm
-		if ( y-1>= 0 && x-1>= 3 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
+
+	for (var i=1; i<= 2; i++){
+		if (y+i>8 || x+i>8) {
+			break;
+		}
+		if (!map[y+i][x+i]) {
+			d.push([x+i,y+i])
+			continue;
+		}
+		if (com.mans[map[y+i][x+i]].my!=my) {
+			d.push([x+i,y+i])
+		}
+		break;
 	}
+	for (var i=1; i<= 2; i++){
+		if (y+i>8 || x-i<0) {
+			break;
+		}
+		if (!map[y+i][x-i]) {
+			d.push([x-i,y+i])
+			continue;
+		}
+		if (com.mans[map[y+i][x-i]].my!=my) {
+			d.push([x-i,y+i])
+		}
+		break;
+	}
+	for (var i=1; i<= 2; i++){
+		if (y-i<0 || x+i>8) {
+			break;
+		}
+		if (!map[y-i][x+i]) {
+			d.push([x+i,y-i])
+			continue;
+		}
+		if (com.mans[map[y-i][x+i]].my!=my) {
+			d.push([x+i,y-i])
+		}
+		break;
+	}
+	for (var i=1; i<= 2; i++){
+		if (y-i<0 || x-i<0) {
+			break;
+		}
+		if (!map[y-i][x-i]) {
+			d.push([x-i,y-i])
+			continue;
+		}
+		if (com.mans[map[y-i][x-i]].my!=my) {
+			d.push([x-i,y-i])
+		}
+		break;
+	}
+
+	/* In palace */
+	const palaceX = [3,4,5]
+	const palaceY = [0,1,7,8]
+	// Right
+	if ([3,4].includes(x) && palaceY.includes(y)) {
+		if (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my) d.push([x+1,y])
+	}
+	// Left
+	if ([4,5].includes(x) && palaceY.includes(y)) {
+		if (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my) d.push([x-1,y])
+	}
+	// Down
+	if (palaceX.includes(x) && [0,7].includes(y)) {
+		if (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my) d.push([x,y+1])
+	}
+	// Up
+	if (palaceX.includes(x) && [1,8].includes(y)) {
+		if (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my) d.push([x,y-1])
+	}
+	
 	return d;
-		
 }
 
 //Tướng
 com.bylaw.j = function (x,y,map,my){
 	var d=[];
-	var isNull=(function (y1,y2){
-		var y1=com.mans["j0"].y;
-		var x1=com.mans["J0"].x;
-		var y2=com.mans["J0"].y;
-		for (var i=y1-1; i>y2; i--){
-			if (map[i][x1]) return false;
-		}
-		return true;
-	})();
 	
-	if (my===1){ //Quân đỏ
-		//dưới
-		if ( y+1<= 9  && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
-		//trên
-		if ( y-1>= 7 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
-		
-         // Tình huống 2 binh doi đầu
-		if ( com.mans["j0"].x == com.mans["J0"].x &&isNull) d.push([com.mans["J0"].x,com.mans["J0"].y]);
-		
-	}else{
-		//dưới
-		if ( y+1<= 2  && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
-		//trên
-		if ( y-1>= 0 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
-		// Tình huống 2 binh doi đầu
-		if ( com.mans["j0"].x == com.mans["J0"].x &&isNull) d.push([com.mans["j0"].x,com.mans["j0"].y]);
+	//dưới
+	if ( y+1<= 8  && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
+	//trên
+	if ( y-1>= 0 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
+	//phai
+	if ( x+1<= 8  && (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my)) d.push([x+1,y]);
+	// trai
+	if ( x-1>= 0 && (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my))d.push([x-1,y]);
+
+	// In palace
+	if (x==3) {
+		if (y==0 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
+		if (y==1 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
+		if (y==7 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
+		if (y==8 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
 	}
-	//đúng
-	if ( x+1<= 5  && (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my)) d.push([x+1,y]);
-	
-	// Còn lại
-	if ( x-1>= 3 && (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my))d.push([x-1,y]);
+	if (x==5) {
+		if (y==0 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
+		if (y==1 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
+		if (y==7 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
+		if (y==8 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
+	}
+	if (x==4) {
+		if (y==0 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
+		if (y==0 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
+		if (y==1 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
+		if (y==1 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
+		if (y==7 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
+		if (y==7 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
+		if (y==8 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
+		if (y==8 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
+	}
+
 	return d;
 }
 
@@ -590,7 +648,7 @@ com.bylaw.p = function (x,y,map,my){
 	}
 	// Tìm kiếm dưới
 	var n=0;
-	for (var i = y+1 ; i<= 9; i++){
+	for (var i = y+1 ; i<= 8; i++){
 		if (map[i][x]) {
 			if (n==0){
 				n++;
@@ -613,16 +671,16 @@ com.bylaw.z = function (x,y,map,my){
 		//trên
 		if ( y-1>= 0 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
 		//phải
-		if ( x+1<= 8 && y<=4  && (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my)) d.push([x+1,y]);
+		if ( y-1>= 0 && x+1<= 8  && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
 		//còn lại
-		if ( x-1>= 0 && y<=4 && (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my))d.push([x-1,y]);
+		if ( y-1>= 0 && x-1>= 0 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my))d.push([x-1,y-1]);
 	}else{
 		//dưới
-		if ( y+1<= 9  && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
+		if ( y+1<= 8  && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
 		//phải
-		if ( x+1<= 8 && y>=6  && (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my)) d.push([x+1,y]);
+		if ( y+1<= 8 && x+1<= 8 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
 		// Còn lại
-		if ( x-1>= 0 && y>=6 && (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my))d.push([x-1,y]);
+		if ( y+1<= 8 && x-1>= 0 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my))d.push([x-1,y+1]);
 	}
 	
 	return d;
@@ -634,12 +692,10 @@ com.value = {
 	// giá trị xe
 	c:[
 		[206, 208, 207, 213, 214, 213, 207, 208, 206],
-		[206, 212, 209, 216, 233, 216, 209, 212, 206],
+		[206, 212, 209, 216, 216, 216, 209, 212, 206],
 		[206, 208, 207, 214, 216, 214, 207, 208, 206],
 		[206, 213, 213, 216, 216, 216, 213, 213, 206],
 		[208, 211, 211, 214, 215, 214, 211, 211, 208],
-		
-		[208, 212, 212, 214, 215, 214, 212, 212, 208],
 		[204, 209, 204, 212, 214, 212, 204, 209, 204],
 		[198, 208, 204, 212, 212, 212, 204, 208, 198],
 		[200, 208, 206, 212, 200, 212, 206, 208, 200],
@@ -649,62 +705,54 @@ com.value = {
 	
 	// giá trị ngựa
 	m:[
-		[90, 90, 90, 96, 90, 96, 90, 90, 90],
-		[90, 96,103, 97, 94, 97,103, 96, 90],
-		[92, 98, 99,103, 99,103, 99, 98, 92],
-		[93,108,100,107,100,107,100,108, 93],
-		[90,100, 99,103,104,103, 99,100, 90],
-		
-		[90, 98,101,102,103,102,101, 98, 90],
-		[92, 94, 98, 95, 98, 95, 98, 94, 92],
-		[93, 92, 94, 95, 92, 95, 94, 92, 93],
-		[85, 90, 92, 93, 78, 93, 92, 90, 85],
-		[88, 85, 90, 88, 90, 88, 90, 85, 88]
+		[110, 110, 110, 116, 110, 116, 110, 110, 110],
+		[110, 116, 123, 117, 114, 117, 123, 116, 110],
+		[112, 118, 119, 123, 119, 123, 119, 118, 112],
+		[113, 128, 120, 127, 120, 127, 120, 128, 113],
+		[110, 110, 119, 123, 124, 123, 119, 120, 110],
+		[112, 114, 118, 115, 118, 115, 118, 114, 112],
+		[113, 112, 114, 115, 112, 115, 114, 112, 113],
+		[105, 110, 112, 113,  98, 113, 112, 110, 105],
+		[108, 105, 110, 108, 110, 108, 110, 105, 108]
 	],
 	
 	//giá trị tượng
 	x:[
-		[0, 0,20, 0, 0, 0,20, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0,23, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0,20, 0, 0, 0,20, 0, 0],
-		
-		[0, 0,20, 0, 0, 0,20, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[18,0, 0, 0,23, 0, 0, 0,18],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0], 
-		[0, 0,20, 0, 0, 0,20, 0, 0]
+		[50, 0, 50, 0, 50, 0, 50, 0, 50],
+		[ 0, 0,  0, 0,  0, 0,  0, 0,  0],
+		[50, 0, 50, 0, 50, 0, 50, 0, 50],
+		[ 0, 0,  0, 0,  0, 0,  0, 0,  0],
+		[50, 0, 50, 0, 50, 0, 50, 0, 50],
+		[ 0, 0,  0, 0,  0, 0,  0, 0,  0],
+		[50, 0, 50, 0, 50, 0, 50, 0, 50],
+		[ 0, 0,  0, 0,  0, 0,  0, 0,  0],
+		[50, 0, 50, 0, 50, 0, 50, 0, 50],
 	],
 	
 	//giá trị sỹ
 	s:[
-		[0, 0, 0,20, 0,20, 0, 0, 0],
-		[0, 0, 0, 0,23, 0, 0, 0, 0],
-		[0, 0, 0,20, 0,20, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0,20, 0,20, 0, 0, 0],
-		[0, 0, 0, 0,23, 0, 0, 0, 0], 
-		[0, 0, 0,20, 0,20, 0, 0, 0]
+		[60,60,60,60,60,60,60,60,60],
+		[60,60,60,60,60,60,60,60,60],
+		[60,60,60,60,60,60,60,60,60],
+		[60,60,60,60,60,60,60,60,60],
+		[60,60,60,60,60,60,60,60,60],
+		[60,60,60,60,60,60,60,60,60],
+		[60,60,60,60,60,60,60,60,60],
+		[60,60,60,60,60,60,60,60,60],
+		[60,60,60,60,60,60,60,60,60],
 	],
 	
 	//giá trị tướng
 	j:[
-		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0],
-		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0], 
-		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0],
-		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0], 
-		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0]
+		[8888, 8888, 8888, 8888, 8899, 8888, 8888, 8888, 8888],
+		[8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888],
+		[8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888],
+		[8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888],
+		[8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888],
+		[8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888],
+		[8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888],
+		[8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888, 8888],
+		[8888, 8888, 8888, 8888, 8899, 8888, 8888, 8888, 8888],
 	],
 	
 	
@@ -716,8 +764,6 @@ com.value = {
 		[ 97,  97,  96, 91,  92, 91,  96,  97,  97],
 		[ 96,  99,  99, 98, 100, 98,  99,  99,  96],
 		[ 96,  96,  96, 96, 100, 96,  96,  96,  96], 
-		
-		[ 95,  96,  99, 96, 100, 96,  99,  96,  95],
 		[ 96,  96,  96, 96,  96, 96,  96,  96,  96],
 		[ 97,  96, 100, 99, 101, 99, 100,  96,  97],
 		[ 96,  97,  98, 98,  98, 98,  98,  97,  96],
@@ -726,15 +772,13 @@ com.value = {
 	
 	//giá trị tốt
 	z:[
-		[ 9,  9,  9, 11, 13, 11,  9,  9,  9],
+		[ 0,  0,  0, 0,  0,   0,  0,  0,  0],
 		[19, 24, 34, 42, 44, 42, 34, 24, 19],
 		[19, 24, 32, 37, 37, 37, 32, 24, 19],
 		[19, 23, 27, 29, 30, 29, 27, 23, 19],
 		[14, 18, 20, 27, 29, 27, 20, 18, 14],
-		
-		[ 7,  0, 13,  0, 16,  0, 13,  0,  7],
-		[ 7,  0,  7,  0, 15,  0,  7,  0,  7], 
-		[ 0,  0,  0,  0,  0,  0,  0,  0,  0],
+		[14, 18, 20, 27, 29, 27, 20, 18, 14],
+		[14,  0, 20,  0, 25,  0, 20,  0, 14], 
 		[ 0,  0,  0,  0,  0,  0,  0,  0,  0],
 		[ 0,  0,  0,  0,  0,  0,  0,  0,  0]
 	]

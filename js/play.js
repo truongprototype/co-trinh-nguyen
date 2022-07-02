@@ -138,18 +138,20 @@ play.regret = function (){
 // Bấm vào bảng sự kiện
 play.clickCanvas = function (e){
 	if (!play.isPlay) return false;
+
+
 	var key = play.getClickMan(e);
 	var point = play.getClickPoint(e);
-	
 	var x = point.x;
 	var y = point.y;
-	
 	if (key){
 		play.clickMan(key,x,y);	
 	}else {
 		play.clickPoint(x,y);	
 	}
 	play.isFoul = play.checkFoul();// Kiểm tra xem nó có dài không
+
+	// play.AIPlay01();
 }
 
 
@@ -175,7 +177,6 @@ play.clickMan = function (key,x,y){
 			com.pane.isShow = false;
 			com.dot.dots = [];
 			com.show()
-			com.get("clickAudio").play();
 			setTimeout("play.AIPlay()",500);
 			if (key == "j0") play.showWin (-1);
 			if (key == "J0") play.showWin (1);
@@ -190,8 +191,6 @@ play.clickMan = function (key,x,y){
 			com.mans[key].ps = com.mans[key].bl(); // Nhận tất cả các điểm bạn có thể
 			com.dot.dots = com.mans[key].ps
 			com.show();
-			//com.get("selectAudio").start(0);
-			com.get("selectAudio").play();
 		}
 	}
 }
@@ -215,7 +214,6 @@ play.clickPoint = function (x,y){
 			play.nowManKey = false;
 			com.dot.dots = [];
 			com.show();
-			com.get("clickAudio").play();
 			setTimeout("play.AIPlay()",500);
 		}else{
 			//alert("Không thể đi theo cách này!")	
@@ -224,6 +222,30 @@ play.clickPoint = function (x,y){
 	
 }
 
+
+play.AIPlay01 = function (){
+	const oldDepth = play.depth;
+	play.depth = 4;
+	//return
+	play.my = 1 ;
+	var pace=AI.init(play.pace.join(""))
+	if (!pace) {
+		play.showWin (1);
+		return ;
+	}
+	play.pace.push(pace.join(""));
+	var key=play.map[pace[1]][pace[0]]
+		play.nowManKey = key;
+	
+	var key=play.map[pace[3]][pace[2]];
+	if (key){
+		play.AIclickMan(key,pace[2],pace[3]);	
+	}else {
+		play.AIclickPoint(pace[2],pace[3]);	
+	}
+	play.depth = oldDepth;
+	setTimeout("play.AIPlay()",1000);
+}
 
 // Ai tự động di chuyển quân cờ
 play.AIPlay = function (){
@@ -244,9 +266,7 @@ play.AIPlay = function (){
 	}else {
 		play.AIclickPoint(pace[2],pace[3]);	
 	}
-	com.get("clickAudio").play();
-	
-	
+	// setTimeout("play.AIPlay01()",1000);
 }
 
 
@@ -322,7 +342,7 @@ play.getClickMan = function (e){
 	var clickXY=play.getClickPoint(e);
 	var x=clickXY.x;
 	var y=clickXY.y;
-	if (x < 0 || x>8 || y < 0 || y > 9) return false;
+	if (x < 0 || x>8 || y < 0 || y > 8) return false;
 	return (play.map[y][x] && play.map[y][x]!="0") ? play.map[y][x] : false;
 }
 
