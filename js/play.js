@@ -140,18 +140,18 @@ play.clickCanvas = function (e){
 	if (!play.isPlay) return false;
 
 
-	var key = play.getClickMan(e);
-	var point = play.getClickPoint(e);
-	var x = point.x;
-	var y = point.y;
-	if (key){
-		play.clickMan(key,x,y);	
-	}else {
-		play.clickPoint(x,y);	
-	}
-	play.isFoul = play.checkFoul();// Kiểm tra xem nó có dài không
+	// var key = play.getClickMan(e);
+	// var point = play.getClickPoint(e);
+	// var x = point.x;
+	// var y = point.y;
+	// if (key){
+	// 	play.clickMan(key,x,y);	
+	// }else {
+	// 	play.clickPoint(x,y);	
+	// }
+	// play.isFoul = play.checkFoul();// Kiểm tra xem nó có dài không
 
-	// play.AIPlay01();
+	play.AIPlay01();
 }
 
 const levelUp = function(x, y) {
@@ -243,7 +243,7 @@ play.clickPoint = function (x,y){
 
 play.AIPlay01 = function (){
 	const oldDepth = play.depth;
-	play.depth = 4;
+	play.depth = 5;
 	//return
 	play.my = 1 ;
 	var pace=AI.init(play.pace.join(""))
@@ -284,7 +284,7 @@ play.AIPlay = function (){
 	}else {
 		play.AIclickPoint(pace[2],pace[3]);	
 	}
-	// setTimeout("play.AIPlay01()",1000);
+	setTimeout("play.AIPlay01()",1000);
 }
 
 
