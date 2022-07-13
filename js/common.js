@@ -596,30 +596,30 @@ com.bylaw.p = function (x,y,map,my){
 	var n=0;
 	for (var i=x-1; i>= 0; i--){
 		if (map[y][i]) {
-			n++;
-		} else {
-			d.push([i,y]);
-		}
-		if (n==2) {
-			if (com.mans[map[y][i]].my!=my) {
-				d.push([i,y]);
+			if (n==0){
+				n++;
+				continue;
+			}else{
+				if (com.mans[map[y][i]].my!=my) d.push([i,y]);
+				break	
 			}
-			break;
+		}else{
+			if(n==0) d.push([i,y])	
 		}
 	}
 	// Tìm kiếm bên phải
 	var n=0;
 	for (var i=x+1; i <= 8; i++){
 		if (map[y][i]) {
-			n++;
-		} else {
-			d.push([i,y]);
-		}
-		if (n==2) {
-			if (com.mans[map[y][i]].my!=my) {
-				d.push([i,y]);
+			if (n==0){
+				n++;
+				continue;
+			}else{
+				if (com.mans[map[y][i]].my!=my) d.push([i,y]);
+				break	
 			}
-			break;
+		}else{
+			if(n==0) d.push([i,y])	
 		}
 	}
 	
@@ -627,30 +627,30 @@ com.bylaw.p = function (x,y,map,my){
 	var n=0;
 	for (var i = y-1 ; i >= 0; i--){
 		if (map[i][x]) {
-			n++;
-		} else {
-			d.push([x,i]);
-		}
-		if (n==2) {
-			if (com.mans[map[i][x]].my!=my) {
-				d.push([x,i]);
+			if (n==0){
+				n++;
+				continue;
+			}else{
+				if (com.mans[map[i][x]].my!=my) d.push([x,i]);
+				break	
 			}
-			break;
+		}else{
+			if(n==0) d.push([x,i])	
 		}
 	}
 	// Tìm kiếm dưới
 	var n=0;
 	for (var i = y+1 ; i<= 8; i++){
 		if (map[i][x]) {
-			n++;
-		} else {
-			d.push([x,i]);
-		}
-		if (n==2) {
-			if (com.mans[map[i][x]].my!=my) {
-				d.push([x,i]);
+			if (n==0){
+				n++;
+				continue;
+			}else{
+				if (com.mans[map[i][x]].my!=my) d.push([x,i]);
+				break	
 			}
-			break;
+		}else{
+			if(n==0) d.push([x,i])	
 		}
 	}
 	return d;
@@ -795,15 +795,15 @@ com.value = {
 	// Giá trị pháo
 	p:[
 		
-		[ 131, 130, 126, 121, 120, 121, 126, 130, 131],
-		[ 128, 128, 126, 122, 119, 122, 126, 128, 128],
-		[ 127, 127, 126, 121, 122, 121, 126, 127, 127],
-		[ 126, 129, 129, 128, 130, 128, 129, 129, 126],
-		[ 126, 126, 126, 126, 130, 126, 126, 126, 126], 
-		[ 126, 126, 126, 126, 126, 126, 126, 126, 126],
-		[ 127, 126, 130, 129, 131, 129, 130, 126, 127],
-		[ 126, 127, 128, 128, 128, 128, 128, 127, 126],
-		[ 126, 126, 127, 129, 129, 129, 127, 126, 126]
+		[ 116, 115, 111, 106, 105, 106, 111, 115, 116],
+		[ 113, 113, 111, 107, 104, 107, 111, 113, 113],
+		[ 112, 112, 111, 106, 107, 106, 111, 112, 112],
+		[ 111, 114, 114, 113, 115, 113, 114, 114, 111],
+		[ 111, 111, 111, 111, 115, 111, 111, 111, 111], 
+		[ 111, 111, 111, 111, 111, 111, 111, 111, 111],
+		[ 112, 111, 115, 114, 116, 114, 115, 111, 112],
+		[ 111, 112, 113, 113, 113, 113, 113, 112, 111],
+		[ 111, 111, 112, 114, 114, 114, 112, 111, 111]
 	],
 	
 	//giá trị tốt
