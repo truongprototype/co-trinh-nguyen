@@ -659,6 +659,48 @@ com.bylaw.p = function (x,y,map,my){
 //Tốt
 com.bylaw.z = function (x,y,map,my){
 	var d=[];
+
+	// Level Up
+	if(com.mans[map[y][x]].levelUp) {
+		// trái tìm kiếm
+		for (var i=x-1; i>= 0; i--){
+			if (map[y][i]) {
+				if (com.mans[map[y][i]].my!=my) d.push([i,y]);
+				break
+			}else{
+				d.push([i,y])	
+			}
+		}
+		// Tìm kiếm bên phải
+		for (var i=x+1; i <= 8; i++){
+			if (map[y][i]) {
+				if (com.mans[map[y][i]].my!=my) d.push([i,y]);
+				break
+			}else{
+				d.push([i,y])	
+			}
+		}
+		// Tìm kiếm
+		for (var i = y-1 ; i >= 0; i--){
+			if (map[i][x]) {
+				if (com.mans[map[i][x]].my!=my) d.push([x,i]);
+				break
+			}else{
+				d.push([x,i])	
+			}
+		}
+		// Tìm kiếm dưới
+		for (var i = y+1 ; i<= 8; i++){
+			if (map[i][x]) {
+				if (com.mans[map[i][x]].my!=my) d.push([x,i]);
+				break
+			}else{
+				d.push([x,i])	
+			}
+		}
+		return d;
+	}
+
 	if (my===1){ //quân đỏ
 		//trên
 		if ( y-1>= 0 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
@@ -766,7 +808,7 @@ com.value = {
 	
 	//giá trị tốt
 	z:[
-		[96, 98, 97, 98, 99, 98, 97, 98, 96],
+		[206, 208, 207, 213, 214, 213, 207, 208, 206],
 		[18, 18, 19, 19, 20, 19, 19, 18, 18],
 		[17, 17, 18, 18, 19, 18, 18, 17, 17],
 		[16, 16, 17, 17, 18, 17, 17, 16, 16],

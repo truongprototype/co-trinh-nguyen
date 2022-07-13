@@ -154,6 +154,18 @@ play.clickCanvas = function (e){
 	// play.AIPlay01();
 }
 
+const levelUp = function(x, y) {
+	var key=play.nowManKey;
+	var man=com.mans[key];
+	if(man.pater=='z' && y==0) {
+		man.levelUp = true;
+		man.value = com.value.c;
+	}
+	if(man.pater=='Z' && y==8) {
+		man.levelUp = true;
+		man.value = com.value.C;
+	}
+}
 
 // Nhấp vào mảnh, trong hai trường hợp, chọn hoặc ăn
 play.clickMan = function (key,x,y){
@@ -162,6 +174,9 @@ play.clickMan = function (key,x,y){
 	if (play.nowManKey&&play.nowManKey != key && man.my != com.mans[play.nowManKey ].my){
 		//manCho các miếng được ăn
 		if (play.indexOfPs(com.mans[play.nowManKey].ps,[x,y])){
+			//Level up
+			levelUp(x, y);
+
 			man.isShow = false;
 			var pace=com.mans[play.nowManKey].x+""+com.mans[play.nowManKey].y
 			//z(bill.createMove(play.map,man.x,man.y,x,y))
@@ -202,6 +217,9 @@ play.clickPoint = function (x,y){
 	var man=com.mans[key];
 	if (play.nowManKey){
 		if (play.indexOfPs(com.mans[key].ps,[x,y])){
+			//Level up
+			levelUp(x, y);
+
 			var pace=man.x+""+man.y
 			//z(bill.createMove(play.map,man.x,man.y,x,y))
 			delete play.map[man.y][man.x];
@@ -286,6 +304,9 @@ play.AIclickMan = function (key,x,y){
 	var man = com.mans[key];
 	
 	// ăn quân
+	//Level up
+	levelUp(x, y);
+	
 	man.isShow = false;
 	delete play.map[com.mans[play.nowManKey].y][com.mans[play.nowManKey].x];
 	play.map[y][x] = play.nowManKey;
@@ -304,6 +325,9 @@ play.AIclickPoint = function (x,y){
 	var key=play.nowManKey;
 	var man=com.mans[key];
 	if (play.nowManKey){
+		//Level up
+		levelUp(x, y);
+
 		delete play.map[com.mans[play.nowManKey].y][com.mans[play.nowManKey].x];
 		play.map[y][x] = key;
 		
