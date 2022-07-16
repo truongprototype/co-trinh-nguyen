@@ -64,61 +64,61 @@ window.onload = function(){
 	com.mans	 ={};		// Bộ sưu tập cờ tướng
 	com.createMans(com.initMap)		// Tạo quân cờ
 	com.bg.show();
-	com.get("bnBox").style.display = "block";
 	//play.init();
 	com.get("billBn").addEventListener("click", function(e) {
-		if (confirm("Bạn có kết thúc trò chơi và bắt đầu trò chơi?")){
-			com.init();
-			com.get("chessRight").style.display = "block";
-			com.get("moveInfo").style.display = "none";
-			bill.init();
+		if (confirm("Bạn có chắc chắn muốn chơi lại? (Are you sure?)")){
+			// com.init();
+			// com.get("chessRight").style.display = "block";
+			// com.get("moveInfo").style.display = "none";
+			// bill.init();
+			window.location.reload();
 		}
 	})
 
 	com.get("onePlay").addEventListener("click", function(e) {
 		play.isPlay=true ;	
-		com.get("chessRight").style.display = "none";
-		com.get("moveInfo").style.display = "block";
+		com.get("bnBox").style.display = "none";
+		com.get("bnBox1").style.display = "flex";
 		com.get("moveInfo").innerHTML="";
 		play.depth = 1;
 		play.init();
 	})
 	com.get("twoPlay").addEventListener("click", function(e) {
 		play.isPlay=true ;	
-		com.get("chessRight").style.display = "none";
-		com.get("moveInfo").style.display = "block";
+		com.get("bnBox").style.display = "none";
+		com.get("bnBox1").style.display = "flex";
 		com.get("moveInfo").innerHTML="";
 		play.depth = 2;
 		play.init();
 	})
 	com.get("tyroPlay").addEventListener("click", function(e) {
 		play.isPlay=true ;	
-		com.get("chessRight").style.display = "none";
-		com.get("moveInfo").style.display = "block";
+		com.get("bnBox").style.display = "none";
+		com.get("bnBox1").style.display = "flex";
 		com.get("moveInfo").innerHTML="";
 		play.depth = 3;
 		play.init();
 	})
 	com.get("superPlay").addEventListener("click", function(e) {
 		play.isPlay=true ;	
-		com.get("chessRight").style.display = "none";
-		com.get("moveInfo").style.display = "block";
+		com.get("bnBox").style.display = "none";
+		com.get("bnBox1").style.display = "flex";
 		com.get("moveInfo").innerHTML="";
 		play.depth = 4;
 		play.init();
 	})
 	com.get("masterPlay").addEventListener("click", function(e) {
 		play.isPlay=true ;	
-		com.get("chessRight").style.display = "none";
-		com.get("moveInfo").style.display = "block";
+		com.get("bnBox").style.display = "none";
+		com.get("bnBox1").style.display = "flex";
 		com.get("moveInfo").innerHTML="";
 		play.depth = 5;
 		play.init();
 	})
 	com.get("ultraPlay").addEventListener("click", function(e) {
 		play.isPlay=true ;	
-		com.get("chessRight").style.display = "none";
-		com.get("moveInfo").style.display = "block";
+		com.get("bnBox").style.display = "none";
+		com.get("bnBox1").style.display = "flex";
 		com.get("moveInfo").innerHTML="";
 		play.depth = 6;
 		play.init();
