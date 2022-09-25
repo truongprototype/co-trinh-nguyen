@@ -464,48 +464,64 @@ com.bylaw.m = function (x,y,map,my){
 com.bylaw.x = function (x,y,map,my){
 	var d=[];
 
-	for (var i=1; i<= 8; i++){
+	for (var i=1; i<= 3; i++){
 		if (y+i>9 || x+i>8) {
 			break;
 		}
+		if (i == 1) {
+			if (map[y+i][x+i]) break;
+			else continue;
+		}
 		if (map[y+i][x+i]) {
-			if (i==2 && com.mans[map[y+i][x+i]].my!=my) {
+			if (com.mans[map[y+i][x+i]].my!=my) {
 				d.push([x+i,y+i])
 			}
 			break;
 		}
 		d.push([x+i,y+i])
 	}
-	for (var i=1; i<= 8; i++){
+	for (var i=1; i<= 3; i++){
 		if (y+i>9 || x-i<0) {
 			break;
 		}
+		if (i == 1) {
+			if (map[y+i][x-i]) break;
+			else continue;
+		}
 		if (map[y+i][x-i]) {
-			if (i==2 && com.mans[map[y+i][x-i]].my!=my) {
+			if (com.mans[map[y+i][x-i]].my!=my) {
 				d.push([x-i,y+i])
 			}
 			break;
 		}
 		d.push([x-i,y+i])
 	}
-	for (var i=1; i<= 8; i++){
+	for (var i=1; i<= 3; i++){
 		if (y-i<0 || x+i>8) {
 			break;
 		}
+		if (i == 1) {
+			if (map[y-i][x+i]) break;
+			else continue;
+		}
 		if (map[y-i][x+i]) {
-			if (i==2 && com.mans[map[y-i][x+i]].my!=my) {
+			if (com.mans[map[y-i][x+i]].my!=my) {
 				d.push([x+i,y-i])
 			}
 			break;
 		}
 		d.push([x+i,y-i])
 	}
-	for (var i=1; i<= 8; i++){
+	for (var i=1; i<= 3; i++){
 		if (y-i<0 || x-i<0) {
 			break;
 		}
+		if (i == 1) {
+			if (map[y-i][x-i]) break;
+			else continue;
+		}
 		if (map[y-i][x-i]) {
-			if (i==2 && com.mans[map[y-i][x-i]].my!=my) {
+			if (com.mans[map[y-i][x-i]].my!=my) {
 				d.push([x-i,y-i])
 			}
 			break;
