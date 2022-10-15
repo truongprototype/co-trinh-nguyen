@@ -12,9 +12,12 @@ AI.init = function(pace){
 		var len=pace.length;
 		var arr=[];
 		// Tìm kiếm trò chơi trước
-		for (var i=0;i< bill.length;i++){
-			if (bill[i].slice(0,len)==pace) {
-			arr.push(bill[i]);
+		play.callHistoryCount++
+		if (play.callHistoryCount <= 12) {
+			for (var i=0;i< bill.length;i++){
+				if (bill[i].slice(0,len)==pace) {
+				arr.push(bill[i]);
+				}
 			}
 		}
 		if (arr.length){
