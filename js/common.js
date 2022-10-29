@@ -415,8 +415,11 @@ com.bylaw.c = function (x,y,map,my){
 			d.push([i,y])	
 		}
 	}
-	// Tìm kiếm
+	// Tìm kiếm tren
 	for (var i = y-1 ; i >= 0; i--){
+		// River
+		if (i==4 && (x%2==1)) break;
+
 		if (map[i][x]) {
 			if (com.mans[map[i][x]].my!=my) d.push([x,i]);
 			break
@@ -427,6 +430,9 @@ com.bylaw.c = function (x,y,map,my){
 	
 	// Tìm kiếm dưới
 	for (var i = y+1 ; i<= 9; i++){
+		// River
+		if (i==5 && (x%2==1)) break;
+
 		if (map[i][x]) {
 			if (com.mans[map[i][x]].my!=my) d.push([x,i]);
 			break
@@ -442,21 +448,92 @@ com.bylaw.m = function (x,y,map,my){
 	var d=[];
 
 	//1Điểm
-	if ( y-2>= 0 && x+1<= 8 && (!com.mans[map[y-1][x]] || !com.mans[map[y-1][x+1]]) && (!com.mans[map[y-2][x+1]] || com.mans[map[y-2][x+1]].my!=my)) d.push([x+1,y-2]);
+	if ( y-2>= 0 && x+1<= 8
+		&& (!com.mans[map[y-2][x+1]] || com.mans[map[y-2][x+1]].my!=my)
+		// && (!com.mans[map[y-1][x]] || !com.mans[map[y-1][x+1]])
+		&& !(y==5 && x%2==1 && (map[y][x+1] || map[y-1][x+1]))
+		&& !(y==5 && x%2==0 && map[y-1][x])
+		&& !(y==6 && x%2==1 && map[y-1][x+1])
+		&& !(y==6 && x%2==0 && (map[y-1][x] || map[y-2][x]))
+	) {
+		d.push([x+1,y-2])
+	};
+
 	//2Điểm
-	if ( y-1>= 0 && x+2<= 8 && (!com.mans[map[y][x+1]] || !com.mans[map[y-1][x+1]]) && (!com.mans[map[y-1][x+2]] || com.mans[map[y-1][x+2]].my!=my)) d.push([x+2,y-1]);
+	if ( y-1>= 0 && x+2<= 8
+		&& (!com.mans[map[y-1][x+2]] || com.mans[map[y-1][x+2]].my!=my)
+		// && (!com.mans[map[y][x+1]] || !com.mans[map[y-1][x+1]])
+		&& !(y==5 && x%2==1 && (map[y][x+1] || map[y-1][x+1]))
+		&& !(y==5 && x%2==0 && (map[y-1][x] && map[y][x+2]))
+	) {
+		d.push([x+2,y-1])
+	};
+	
 	//4Điểm
-	if ( y+1<= 9 && x+2<= 8 && (!com.mans[map[y][x+1]] || !com.mans[map[y+1][x+1]]) && (!com.mans[map[y+1][x+2]] || com.mans[map[y+1][x+2]].my!=my)) d.push([x+2,y+1]);
+	if ( y+1<= 9 && x+2<= 8
+		&& (!com.mans[map[y+1][x+2]] || com.mans[map[y+1][x+2]].my!=my)
+		// && (!com.mans[map[y][x+1]] || !com.mans[map[y+1][x+1]])
+		&& !(y==4 && x%2==1 && (map[y][x+1] || map[y+1][x+1]))
+		&& !(y==4 && x%2==0 && (map[y+1][x] && map[y][x+2]))
+	) {
+		d.push([x+2,y+1])
+	};
+	
 	//5Điểm
-	if ( y+2<= 9 && x+1<= 8 && (!com.mans[map[y+1][x]] || !com.mans[map[y+1][x+1]]) && (!com.mans[map[y+2][x+1]] || com.mans[map[y+2][x+1]].my!=my)) d.push([x+1,y+2]);
+	if ( y+2<= 9 && x+1<= 8
+		&& (!com.mans[map[y+2][x+1]] || com.mans[map[y+2][x+1]].my!=my)
+		// && (!com.mans[map[y+1][x]] || !com.mans[map[y+1][x+1]])
+		&& !(y==4 && x%2==1 && (map[y][x+1] || map[y+1][x+1]))
+		&& !(y==4 && x%2==0 && map[y+1][x])
+		&& !(y==3 && x%2==1 && map[y+1][x+1])
+		&& !(y==3 && x%2==0 && (map[y+1][x] || map[y+2][x]))
+	) {
+		d.push([x+1,y+2])
+	};
+	
 	//7Điểm
-	if ( y+2<= 9 && x-1>= 0 && (!com.mans[map[y+1][x]] || !com.mans[map[y+1][x-1]]) && (!com.mans[map[y+2][x-1]] || com.mans[map[y+2][x-1]].my!=my)) d.push([x-1,y+2]);
+	if ( y+2<= 9 && x-1>= 0
+		&& (!com.mans[map[y+2][x-1]] || com.mans[map[y+2][x-1]].my!=my)
+		// && (!com.mans[map[y+1][x]] || !com.mans[map[y+1][x-1]])
+		&& !(y==4 && x%2==1 && (map[y][x-1] || map[y+1][x-1]))
+		&& !(y==4 && x%2==0 && map[y+1][x])
+		&& !(y==3 && x%2==1 && map[y+1][x-1])
+		&& !(y==3 && x%2==0 && (map[y+1][x] || map[y+2][x]))
+	) {
+		d.push([x-1,y+2])
+	};
+	
 	//8Điểm
-	if ( y+1<= 9 && x-2>= 0 && (!com.mans[map[y][x-1]] || !com.mans[map[y+1][x-1]]) && (!com.mans[map[y+1][x-2]] || com.mans[map[y+1][x-2]].my!=my)) d.push([x-2,y+1]);
+	if ( y+1<= 9 && x-2>= 0
+		&& (!com.mans[map[y+1][x-2]] || com.mans[map[y+1][x-2]].my!=my)
+		// && (!com.mans[map[y][x-1]] || !com.mans[map[y+1][x-1]])
+		&& !(y==4 && x%2==1 && (map[y][x-1] || map[y+1][x-1]))
+		&& !(y==4 && x%2==0 && (map[y+1][x] && map[y][x-2]))
+	) {
+		d.push([x-2,y+1])
+	};
+	
 	//10Điểm
-	if ( y-1>= 0 && x-2>= 0 && (!com.mans[map[y][x-1]] || !com.mans[map[y-1][x-1]]) && (!com.mans[map[y-1][x-2]] || com.mans[map[y-1][x-2]].my!=my)) d.push([x-2,y-1]);
+	if ( y-1>= 0 && x-2>= 0
+		&& (!com.mans[map[y-1][x-2]] || com.mans[map[y-1][x-2]].my!=my)
+		// && (!com.mans[map[y][x-1]] || !com.mans[map[y-1][x-1]])
+		&& !(y==5 && x%2==1 && (map[y][x-1] || map[y-1][x-1]))
+		&& !(y==5 && x%2==0 && (map[y-1][x] && map[y][x-2]))
+	) {
+		d.push([x-2,y-1])
+	};
+	
 	//11Điểm
-	if ( y-2>= 0 && x-1>= 0 && (!com.mans[map[y-1][x]] || !com.mans[map[y-1][x-1]]) && (!com.mans[map[y-2][x-1]] || com.mans[map[y-2][x-1]].my!=my)) d.push([x-1,y-2]);
+	if ( y-2>= 0 && x-1>= 0
+		&& (!com.mans[map[y-2][x-1]] || com.mans[map[y-2][x-1]].my!=my)
+		// && (!com.mans[map[y-1][x]] || !com.mans[map[y-1][x-1]])
+		&& !(y==5 && x%2==1 && (map[y][x-1] || map[y-1][x-1]))
+		&& !(y==5 && x%2==0 && map[y-1][x])
+		&& !(y==6 && x%2==1 && map[y-1][x-1])
+		&& !(y==6 && x%2==0 && (map[y-1][x] || map[y-2][x]))
+	) {
+		d.push([x-1,y-2])
+	};
 
 	return d;
 }
@@ -465,69 +542,84 @@ com.bylaw.m = function (x,y,map,my){
 com.bylaw.x = function (x,y,map,my){
 	var d=[];
 
-	for (var i=1; i<= 8; i++){
-		if (y+i>9 || x+i>8) {
-			break;
-		}
-		if (i == 1) {
-			if (map[y+i][x+i]) break;
-			else continue;
-		}
-		if (map[y+i][x+i]) {
-			if (com.mans[map[y+i][x+i]].my!=my) {
-				d.push([x+i,y+i])
+	if (y==4) {
+		if (!map[y+1][x]) d.push([x,y+1])
+	} else {
+		// Duoi Phai
+		for (var i=1; i<= 2; i++){
+			if (y+i>9 || x+i>8) {
+				break;
 			}
-			break;
+			if (i == 1) {
+				if (map[y+i][x+i]) break;
+				else continue;
+			}
+			if (map[y+i][x+i]) {
+				if (com.mans[map[y+i][x+i]].my!=my) {
+					d.push([x+i,y+i])
+				}
+				break;
+			}
+			d.push([x+i,y+i])
 		}
-		d.push([x+i,y+i])
+	
+		// Duoi Trai
+		for (var i=1; i<= 2; i++){
+			if (y+i>9 || x-i<0) {
+				break;
+			}
+			if (i == 1) {
+				if (map[y+i][x-i]) break;
+				else continue;
+			}
+			if (map[y+i][x-i]) {
+				if (com.mans[map[y+i][x-i]].my!=my) {
+					d.push([x-i,y+i])
+				}
+				break;
+			}
+			d.push([x-i,y+i])
+		}
 	}
-	for (var i=1; i<= 8; i++){
-		if (y+i>9 || x-i<0) {
-			break;
-		}
-		if (i == 1) {
-			if (map[y+i][x-i]) break;
-			else continue;
-		}
-		if (map[y+i][x-i]) {
-			if (com.mans[map[y+i][x-i]].my!=my) {
-				d.push([x-i,y+i])
+
+	if (y==5) {
+		if (!map[y-1][x]) d.push([x,y-1])
+	} else {
+		// Tren Phai
+		for (var i=1; i<= 2; i++){
+			if (y-i<0 || x+i>8) {
+				break;
 			}
-			break;
-		}
-		d.push([x-i,y+i])
-	}
-	for (var i=1; i<= 8; i++){
-		if (y-i<0 || x+i>8) {
-			break;
-		}
-		if (i == 1) {
-			if (map[y-i][x+i]) break;
-			else continue;
-		}
-		if (map[y-i][x+i]) {
-			if (com.mans[map[y-i][x+i]].my!=my) {
-				d.push([x+i,y-i])
+			if (i == 1) {
+				if (map[y-i][x+i]) break;
+				else continue;
 			}
-			break;
-		}
-		d.push([x+i,y-i])
-	}
-	for (var i=1; i<= 8; i++){
-		if (y-i<0 || x-i<0) {
-			break;
-		}
-		if (i == 1) {
-			if (map[y-i][x-i]) break;
-			else continue;
-		}
-		if (map[y-i][x-i]) {
-			if (com.mans[map[y-i][x-i]].my!=my) {
-				d.push([x-i,y-i])
+			if (map[y-i][x+i]) {
+				if (com.mans[map[y-i][x+i]].my!=my) {
+					d.push([x+i,y-i])
+				}
+				break;
 			}
-			break;
+			d.push([x+i,y-i])
 		}
-		d.push([x-i,y-i])
+	
+		// Tren Trai
+		for (var i=1; i<= 2; i++){
+			if (y-i<0 || x-i<0) {
+				break;
+			}
+			if (i == 1) {
+				if (map[y-i][x-i]) break;
+				else continue;
+			}
+			if (map[y-i][x-i]) {
+				if (com.mans[map[y-i][x-i]].my!=my) {
+					d.push([x-i,y-i])
+				}
+				break;
+			}
+			d.push([x-i,y-i])
+		}
 	}
 
 	return d;
@@ -537,10 +629,10 @@ com.bylaw.x = function (x,y,map,my){
 com.bylaw.s = function (x,y,map,my){
 	var d=[];
 
-	if ( y+1<= 9 && x+1<= 8 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
-	if ( y+1<= 9 && x-1>= 0 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
-	if ( y-1>= 0 && x+1<= 8 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
-	if ( y-1>= 0 && x-1>= 0 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
+	if (y!=4 && y+1<= 9 && x+1<= 8 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
+	if (y!=4 && y+1<= 9 && x-1>= 0 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
+	if (y!=5 && y-1>= 0 && x+1<= 8 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
+	if (y!=5 && y-1>= 0 && x-1>= 0 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
 	
 	return d;
 }
@@ -592,6 +684,7 @@ com.bylaw.j = function (x,y,map,my){
 	// Tren
 	for (let i = y-1 ; i >= 0; i--){
 		if (i == y-1) {
+			if (y==5 && x%2==1) continue;
 			if (map[i][x]) {
 				if (com.mans[map[i][x]].my!=my) d.push([x,i]);
 				break
@@ -612,6 +705,7 @@ com.bylaw.j = function (x,y,map,my){
 	// Dưới
 	for (let i = y+1 ; i<= 9; i++){
 		if (i == y+1) {
+			if (y==4 && x%2==1) continue;
 			if (map[i][x]) {
 				if (com.mans[map[i][x]].my!=my) d.push([x,i]);
 				break
@@ -668,7 +762,7 @@ com.bylaw.p = function (x,y,map,my){
 		}
 	}
 	
-	// Tìm kiếm
+	// Tìm kiếm tren
 	var n=0;
 	for (var i = y-1 ; i >= 0; i--){
 		if (map[i][x]) {
@@ -680,7 +774,10 @@ com.bylaw.p = function (x,y,map,my){
 				break	
 			}
 		}else{
-			if(n==0) d.push([x,i])	
+			if(n==0) {
+				if (y>=5 && i<=4 && (x%2==1)) continue; // River
+				d.push([x,i])
+			}
 		}
 	}
 	// Tìm kiếm dưới
@@ -695,7 +792,10 @@ com.bylaw.p = function (x,y,map,my){
 				break	
 			}
 		}else{
-			if(n==0) d.push([x,i])	
+			if(n==0) {
+				if (y<=4 && i>=5 && (x%2==1)) continue; // River
+				d.push([x,i])
+			}
 		}
 	}
 	return d;
@@ -706,22 +806,22 @@ com.bylaw.z = function (x,y,map,my){
 	var d=[];
 	if (my===1){ //quân đỏ
 		//trên
-		if ( y-1>= 0 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
+		if ( (x%2!=1 || y!=5) && y-1>= 0 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
 		//dưới
-		if ( y<=4 && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
+		if ( (x%2!=1 || y!=4) && y<=4 && !com.mans[map[y+1][x]]) d.push([x,y+1]);
 		//phải
-		if ( x+1<= 8 && y<=4 && (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my)) d.push([x+1,y]);
+		if ( x+1<= 8 && (!com.mans[map[y][x+1]] || (com.mans[map[y][x+1]].my!=my && y<=4))) d.push([x+1,y]);
 		//trái
-		if ( x-1>= 0 && y<=4 && (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my))d.push([x-1,y]);
+		if ( x-1>= 0 && (!com.mans[map[y][x-1]] || (com.mans[map[y][x-1]].my!=my && y<=4)))d.push([x-1,y]);
 	}else{
 		//dưới
-		if ( y+1<= 9 && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
+		if ( (x%2!=1 || y!=4) && y+1<= 9 && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
 		//trên
-		if ( y>=6 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
+		if ( (x%2!=1 || y!=5) && y>=6 && !com.mans[map[y-1][x]]) d.push([x,y-1]);
 		//phải
-		if ( x+1<= 8 && y>=6 && (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my)) d.push([x+1,y]);
+		if ( x+1<= 8 && (!com.mans[map[y][x+1]] || (com.mans[map[y][x+1]].my!=my && y>=6))) d.push([x+1,y]);
 		//trái
-		if ( x-1>= 0 && y>=6 && (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my))d.push([x-1,y]);
+		if ( x-1>= 0 && (!com.mans[map[y][x-1]] || (com.mans[map[y][x-1]].my!=my && y>=6)))d.push([x-1,y]);
 	}
 	
 	return d;
