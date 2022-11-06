@@ -333,12 +333,12 @@ com.createMove = function (map,x,y,newX,newY){
 com.initMap = [
 	['C0','M0','X0','S0','J0','S1','X1','M1','C1'],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,'P0',    ,    ,    ,    ,    ,'P1',    ],
+	[    ,'P0',    ,'D0',    ,'D1',    ,'P1',    ],
 	['Z0',    ,'Z1',    ,'Z2',    ,'Z3',    ,'Z4'],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	['z0',    ,'z1',    ,'z2',    ,'z3',    ,'z4'],
-	[    ,'p0',    ,    ,    ,    ,    ,'p1',    ],
+	[    ,'p0',    ,'d0',    ,'d1',    ,'p1',    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	['c0','m0','x0','s0','j0','s1','x1','m1','c1']
 ];
@@ -379,6 +379,7 @@ com.keys = {
 	"j0":"j",
 	"p0":"p","p1":"p",
 	"z0":"z","z1":"z","z2":"z","z3":"z","z4":"z","z5":"z",
+	"d0":"d","d1":"d",
 	
 	"C0":"c","C1":"C",
 	"M0":"M","M1":"M",
@@ -387,6 +388,7 @@ com.keys = {
 	"J0":"J",
 	"P0":"P","P1":"P",
 	"Z0":"Z","Z1":"Z","Z2":"Z","Z3":"Z","Z4":"Z","Z5":"Z",
+	"D0":"D","D1":"D",
 }
 
 // Cờ  có thể đi.
@@ -542,9 +544,7 @@ com.bylaw.m = function (x,y,map,my){
 com.bylaw.x = function (x,y,map,my){
 	var d=[];
 
-	if (y==4) {
-		if (!map[y+1][x]) d.push([x,y+1])
-	} else {
+	if (y!=4) {
 		// Duoi Phai
 		for (var i=1; i<= 2; i++){
 			if (y+i>9 || x+i>8) {
@@ -582,9 +582,7 @@ com.bylaw.x = function (x,y,map,my){
 		}
 	}
 
-	if (y==5) {
-		if (!map[y-1][x]) d.push([x,y-1])
-	} else {
+	if (y!=5) {
 		// Tren Phai
 		for (var i=1; i<= 2; i++){
 			if (y-i<0 || x+i>8) {
@@ -808,7 +806,7 @@ com.bylaw.z = function (x,y,map,my){
 		//trên
 		if ( (x%2!=1 || y!=5) && y-1>= 0 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
 		//dưới
-		if ( (x%2!=1 || y!=4) && y<=4 && !com.mans[map[y+1][x]]) d.push([x,y+1]);
+		if ( (x%2!=1 || y!=4) && y<=4 && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
 		//phải
 		if ( x+1<= 8 && (!com.mans[map[y][x+1]] || (com.mans[map[y][x+1]].my!=my && y<=4))) d.push([x+1,y]);
 		//trái
@@ -817,13 +815,84 @@ com.bylaw.z = function (x,y,map,my){
 		//dưới
 		if ( (x%2!=1 || y!=4) && y+1<= 9 && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
 		//trên
-		if ( (x%2!=1 || y!=5) && y>=6 && !com.mans[map[y-1][x]]) d.push([x,y-1]);
+		if ( (x%2!=1 || y!=5) && y>=6 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
 		//phải
 		if ( x+1<= 8 && (!com.mans[map[y][x+1]] || (com.mans[map[y][x+1]].my!=my && y>=6))) d.push([x+1,y]);
 		//trái
 		if ( x-1>= 0 && (!com.mans[map[y][x-1]] || (com.mans[map[y][x-1]].my!=my && y>=6)))d.push([x-1,y]);
 	}
 	
+	return d;
+}
+
+// Dot kich
+com.bylaw.d = function (x,y,map,my){
+	var d=[];
+
+	//1Điểm
+	if ( y-3>= 0 && x+1<= 8
+		&& (!com.mans[map[y-3][x+1]] || com.mans[map[y-3][x+1]].my!=my)
+		&& (!com.mans[map[y-1][x]] && !com.mans[map[y-2][x]])
+	) {
+		d.push([x+1,y-3])
+	};
+
+	//2Điểm
+	if ( y-1>= 0 && x+3<= 8
+		&& (!com.mans[map[y-1][x+3]] || com.mans[map[y-1][x+3]].my!=my)
+		&& (!com.mans[map[y][x+1]] && !com.mans[map[y][x+2]])
+	) {
+		d.push([x+3,y-1])
+	};
+	
+	//4Điểm
+	if ( y+1<= 9 && x+3<= 8
+		&& (!com.mans[map[y+1][x+3]] || com.mans[map[y+1][x+3]].my!=my)
+		&& (!com.mans[map[y][x+1]] && !com.mans[map[y][x+2]])
+	) {
+		d.push([x+3,y+1])
+	};
+	
+	//5Điểm
+	if ( y+3<= 9 && x+1<= 8
+		&& (!com.mans[map[y+3][x+1]] || com.mans[map[y+3][x+1]].my!=my)
+		&& (!com.mans[map[y+1][x]] && !com.mans[map[y+2][x]])
+	) {
+		d.push([x+1,y+3])
+	};
+	
+	//7Điểm
+	if ( y+3<= 9 && x-1>= 0
+		&& (!com.mans[map[y+3][x-1]] || com.mans[map[y+3][x-1]].my!=my)
+		&& (!com.mans[map[y+1][x]] && !com.mans[map[y+2][x]])
+	) {
+		d.push([x-1,y+3])
+	};
+	
+	//8Điểm
+	if ( y+1<= 9 && x-3>= 0
+		&& (!com.mans[map[y+1][x-3]] || com.mans[map[y+1][x-3]].my!=my)
+		&& (!com.mans[map[y][x-1]] && !com.mans[map[y][x-2]])
+	) {
+		d.push([x-3,y+1])
+	};
+	
+	//10Điểm
+	if ( y-1>= 0 && x-3>= 0
+		&& (!com.mans[map[y-1][x-3]] || com.mans[map[y-1][x-3]].my!=my)
+		&& (!com.mans[map[y][x-1]] && !com.mans[map[y][x-2]])
+	) {
+		d.push([x-3,y-1])
+	};
+	
+	//11Điểm
+	if ( y-3>= 0 && x-1>= 0
+		&& (!com.mans[map[y-3][x-1]] || com.mans[map[y-3][x-1]].my!=my)
+		&& (!com.mans[map[y-1][x]] && !com.mans[map[y-2][x]])
+	) {
+		d.push([x-1,y-3])
+	};
+
 	return d;
 }
 
@@ -934,6 +1003,22 @@ com.value = {
 		[ 0,  0,  0,  0,  0,  0,  0,  0,  0],
 		[ 0,  0,  0,  0,  0,  0,  0,  0,  0],
 		[ 0,  0,  0,  0,  0,  0,  0,  0,  0]
+	],
+	
+	
+	// giá trị d
+	d:[
+		[90, 90, 90, 96, 90, 96, 90, 90, 90],
+		[90, 96,103, 97, 94, 97,103, 96, 90],
+		[92, 98, 99,103, 99,103, 99, 98, 92],
+		[93,108,100,107,100,107,100,108, 93],
+		[90,100, 99,103,104,103, 99,100, 90],
+		
+		[90, 98,101,102,103,102,101, 98, 90],
+		[92, 94, 98, 95, 98, 95, 98, 94, 92],
+		[93, 92, 94, 95, 92, 95, 94, 92, 93],
+		[85, 90, 92, 93, 78, 93, 92, 90, 85],
+		[88, 85, 90, 88, 90, 88, 90, 85, 88]
 	]
 }
 
@@ -946,6 +1031,7 @@ com.value.S = com.arr2Clone(com.value.s).reverse();
 com.value.J = com.arr2Clone(com.value.j).reverse();
 com.value.P = com.arr2Clone(com.value.p).reverse();
 com.value.Z = com.arr2Clone(com.value.z).reverse();
+com.value.D = com.arr2Clone(com.value.d).reverse();
 
 //tướng
 com.args={
@@ -957,6 +1043,7 @@ com.args={
 	'j':{text:"将", img:'r_j', my:1 ,bl:"j", value:com.value.j},
 	'p':{text:"炮", img:'r_p', my:1 ,bl:"p", value:com.value.p},
 	'z':{text:"兵", img:'r_z', my:1 ,bl:"z", value:com.value.z},
+	'd':{text:"Đ", img:'r_d', my:1 ,bl:"d", value:com.value.d},
 	
 	//quân xanh
 	'C':{text:"車", img:'b_c', my:-1 ,bl:"c", value:com.value.C},
@@ -965,7 +1052,8 @@ com.args={
 	'S':{text:"士", img:'b_s', my:-1 ,bl:"s", value:com.value.S},
 	'J':{text:"帅", img:'b_j', my:-1 ,bl:"j", value:com.value.J},
 	'P':{text:"炮", img:'b_p', my:-1 ,bl:"p", value:com.value.P},
-	'Z':{text:"卒", img:'b_z', my:-1 ,bl:"z", value:com.value.Z}
+	'Z':{text:"卒", img:'b_z', my:-1 ,bl:"z", value:com.value.Z},
+	'D':{text:"Đ", img:'b_d', my:-1 ,bl:"d", value:com.value.D},
 };
 
 com.class = com.class || {} //lớp
