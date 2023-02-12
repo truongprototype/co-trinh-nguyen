@@ -2,6 +2,14 @@
 
 var play = play||{};
 
+// Nhận ID
+play.getId = function (id){
+	return document.getElementById(id)
+}
+play.get = function (query){
+	return document.querySelector(query)
+}
+
 play.init = function (){
 	
 	play.my				=	1;				// Phía người chơi
@@ -15,10 +23,8 @@ play.init = function (){
 	play.showPane 		= 	com.showPane;
 	play.isOffensive	=	true;			// Cho dù đó là lần đầu tiên
 	play.depth			=	play.depth || 3;				// Độ sâu tìm kiếm
-	
 	play.isFoul			=	false;	// Bạn có phạm lỗi với người cai trị?
-	
-	
+	play.thinking       =   false;
 	
 	com.pane.isShow		=	 false;			// Ẩn hộp
 	
@@ -61,7 +67,7 @@ play.init = function (){
 	*/
 	
 	
-	com.get("regretBn").addEventListener("click", function(e) {
+	play.getId("regretBn").addEventListener("click", function(e) {
 		play.regret();
 	})
 	
@@ -79,6 +85,52 @@ play.init = function (){
 	z([h,nowTime-initTime])
 	*/
 	
+}
+
+window.onload = function(){  
+	com.bg=new com.class.Bg();
+	com.dot = new com.class.Dot();
+	com.pane=new com.class.Pane();
+	com.pane.isShow=false;
+	
+	com.childList=[com.bg,com.dot,com.pane];	
+	com.mans	 ={};		// Bộ sưu tập cờ tướng
+	com.createMans(com.initMap)		// Tạo quân cờ
+	com.bg.show();
+	play.getId("billBn").addEventListener("click", function(e) {
+		if (confirm("Bạn có chắc chắn muốn chơi lại? (Are you sure?)")){
+			window.location.reload();
+		}
+	})
+
+	play.getId("onePlay").addEventListener("click", function(e) {
+		play.isPlay=true ;	
+		play.getId("bnBox").style.display = "none";
+		play.getId("bnBox1").style.display = "block";
+		play.type = play.getId("type").value;
+		play.depth = play.type === 'bot' ? play.getId("level").value : null;
+		play.type1 = play.getId("type1").value;
+		play.depth1 = play.type1 === 'bot' ? play.getId("level1").value : null;
+		play.first = play.getId("first").value;
+		play.init();
+		if (play.first === 'below') {
+			if (play.type1 === 'bot') play.AIPlay01();
+		} else {
+			play.AIPlay()
+		}
+	});
+
+	play.getId("type").addEventListener("change", function(e) {
+		const type1 = this.value;
+		if (type1 === 'bot') play.getId("level").style.display = "inline-block";
+		else play.getId("level").style.display = "none";
+	});
+
+	play.getId("type1").addEventListener("change", function(e) {
+		const type1 = this.value;
+		if (type1 === 'bot') play.getId("level1").style.display = "inline-block";
+		else play.getId("level1").style.display = "none";
+	});
 }
 
 
@@ -137,8 +189,7 @@ play.regret = function (){
 
 // Bấm vào bảng sự kiện
 play.clickCanvas = function (e){
-	if (!play.isPlay) return false;
-
+	if (!play.isPlay || play.thinking) return false;
 
 	var key = play.getClickMan(e);
 	var point = play.getClickPoint(e);
@@ -150,8 +201,6 @@ play.clickCanvas = function (e){
 		play.clickPoint(x,y);	
 	}
 	play.isFoul = play.checkFoul();// Kiểm tra xem nó có dài không
-
-	// play.AIPlay01();
 }
 
 
@@ -222,13 +271,48 @@ play.clickPoint = function (x,y){
 	
 }
 
+// Ai tự động di chuyển quân cờ
+play.AIPlay = function (){
+	//return
+	play.my = -1 ;
+
+	play.thinking = true;
+	play.get('.lds-ellipsis').style.display = 'block';
+	var pace=AI.init(play.pace.join(""))
+	play.thinking = false;
+	play.get('.lds-ellipsis').style.display = 'none';
+
+	if (!pace) {
+		play.showWin (1);
+		return ;
+	}
+	play.pace.push(pace.join(""));
+	var key=play.map[pace[1]][pace[0]]
+		play.nowManKey = key;
+	
+	var key=play.map[pace[3]][pace[2]];
+	if (key){
+		play.AIclickMan(key,pace[2],pace[3]);	
+	}else {
+		play.AIclickPoint(pace[2],pace[3]);	
+	}
+	
+	if (play.type1 === 'bot') setTimeout("play.AIPlay01()",1000);
+}
+
 
 play.AIPlay01 = function (){
 	const oldDepth = play.depth;
-	play.depth = 4;
+	play.depth = play.depth1;
 	//return
 	play.my = 1 ;
+
+	play.thinking = true;
+	play.get('.lds-ellipsis').style.display = 'block';
 	var pace=AI.init(play.pace.join(""))
+	play.thinking = false;
+	play.get('.lds-ellipsis').style.display = 'none';
+
 	if (!pace) {
 		play.showWin (1);
 		return ;
@@ -244,29 +328,8 @@ play.AIPlay01 = function (){
 		play.AIclickPoint(pace[2],pace[3]);	
 	}
 	play.depth = oldDepth;
-	setTimeout("play.AIPlay()",1000);
-}
-
-// Ai tự động di chuyển quân cờ
-play.AIPlay = function (){
-	//return
-	play.my = -1 ;
-	var pace=AI.init(play.pace.join(""))
-	if (!pace) {
-		play.showWin (1);
-		return ;
-	}
-	play.pace.push(pace.join(""));
-	var key=play.map[pace[1]][pace[0]]
-		play.nowManKey = key;
 	
-	var key=play.map[pace[3]][pace[2]];
-	if (key){
-		play.AIclickMan(key,pace[2],pace[3]);	
-	}else {
-		play.AIclickPoint(pace[2],pace[3]);	
-	}
-	// setTimeout("play.AIPlay01()",1000);
+	if (play.type === 'bot') setTimeout("play.AIPlay()",1000);
 }
 
 

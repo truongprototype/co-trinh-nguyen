@@ -11,12 +11,12 @@ AI.init = function(pace){
 	if (bill.length){
 		var len=pace.length;
 		var arr=[];
-		// Tìm kiếm trò chơi trước
-		for (var i=0;i< bill.length;i++){
-			if (bill[i].slice(0,len)==pace) {
-			arr.push(bill[i]);
-			}
-		}
+		// // Tìm kiếm trò chơi trước
+		// for (var i=0;i< bill.length;i++){
+		// 	if (bill[i].slice(0,len)==pace) {
+		// 	arr.push(bill[i]);
+		// 	}
+		// }
 		if (arr.length){
 			var inx=Math.floor( Math.random() * arr.length );
 			AI.historyBill = arr ;
@@ -44,13 +44,6 @@ AI.init = function(pace){
 	if (val&&val.value!=-8888) {
 		var man = play.mans[val.key];
 		var nowTime= new Date().getTime();
-		com.get("moveInfo").innerHTML='<h3>AI Kết quả tìm kiếm：</h3>Cách tốt nhất để di chuyển：'+
-										com.createMove(com.arr2Clone(play.map),man.x,man.y,val.x,val.y)+
-										'<br />Độ sâu tìm kiếm：'+AI.treeDepth+'<br />Tìm kiếm nhánh：'+
-										AI.number+'个 <br />Đánh giá điểm thực thi tốt nhất：'+
-										val.value+'Điển'+
-										' <br />Thời gian tìm kiếm：'+
-										(nowTime-initTime)+'mili giây'
 		return [man.x,man.y,val.x,val.y]
 	}else {
 		return false;	
