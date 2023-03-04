@@ -25,6 +25,7 @@ play.init = function (){
 	play.depth			=	play.depth || 3;				// Độ sâu tìm kiếm
 	play.isFoul			=	false;	// Bạn có phạm lỗi với người cai trị?
 	play.thinking       =   false;
+	play.callHistoryCount = 0;
 	
 	com.pane.isShow		=	 false;			// Ẩn hộp
 	

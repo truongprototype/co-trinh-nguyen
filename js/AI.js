@@ -11,12 +11,15 @@ AI.init = function(pace){
 	if (bill.length){
 		var len=pace.length;
 		var arr=[];
-		// // Tìm kiếm trò chơi trước
-		// for (var i=0;i< bill.length;i++){
-		// 	if (bill[i].slice(0,len)==pace) {
-		// 	arr.push(bill[i]);
-		// 	}
-		// }
+		// Tìm kiếm trò chơi trước
+		play.callHistoryCount++
+		if (play.callHistoryCount <= 12) {
+			for (var i=0;i< bill.length;i++){
+				if (bill[i].slice(0,len)==pace) {
+				arr.push(bill[i]);
+				}
+			}
+		}
 		if (arr.length){
 			var inx=Math.floor( Math.random() * arr.length );
 			AI.historyBill = arr ;
