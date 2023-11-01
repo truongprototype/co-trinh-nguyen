@@ -25,6 +25,7 @@ play.init = function (){
 	play.depth			=	play.depth || 3;				// Độ sâu tìm kiếm
 	play.isFoul			=	false;	// Bạn có phạm lỗi với người cai trị?
 	play.thinking       =   false;
+	play.callHistoryCount = 0;
 	
 	com.pane.isShow		=	 false;			// Ẩn hộp
 	
@@ -207,6 +208,29 @@ play.clickCanvas = function (e){
 // Nhấp vào mảnh, trong hai trường hợp, chọn hoặc ăn
 play.clickMan = function (key,x,y){
 	var man = com.mans[key];
+
+	// Day quan
+	const nowMan = play.nowManKey ? com.mans[play.nowManKey] : {}
+	if (nowMan.pater?.toLowerCase() == 't') {
+		if (play.nowManKey != key && play.indexOfPs(com.mans[play.nowManKey].ps,[x,y])) {
+			let directionX = x, directionY = y
+			if (nowMan.x == man.x) {
+				directionY = nowMan.y < man.y ? y+1 : y-1
+			} else if (nowMan.y == man.y) {
+				directionX = nowMan.x < man.x ? x+1 : x-1
+			}
+
+			const tempKey = play.nowManKey;
+			play.nowManKey = key;
+			play.clickPointAuto(directionX, directionY)
+			play.nowManKey = tempKey;
+			play.clickPointAuto(x, y)
+
+			setTimeout("play.AIPlay()",500);
+			return
+		}
+	}
+
 	//an quan
 	if (play.nowManKey&&play.nowManKey != key && man.my != com.mans[play.nowManKey ].my){
 		//manCho các miếng được ăn
@@ -233,6 +257,19 @@ play.clickMan = function (key,x,y){
 	// kiểm tra mảnh
 	}else{
 		if (man.my===1){
+			if(play.nowManKey) {
+				if (play.nowManKey == key) { // Unselect
+					if (com.mans[play.nowManKey]) com.mans[play.nowManKey].alpha = 1 ;
+					man.alpha = 1;
+					com.pane.isShow = true;
+					play.nowManKey = false;
+					com.mans[key].ps = com.mans[key].bl(); // Nhận tất cả các điểm bạn có thể
+					com.dot.dots = []
+					com.show();
+				}
+				return
+			}
+
 			if (com.mans[play.nowManKey]) com.mans[play.nowManKey].alpha = 1 ;
 			man.alpha = 0.6;
 			com.pane.isShow = false;
@@ -269,6 +306,22 @@ play.clickPoint = function (x,y){
 		}
 	}
 	
+}
+
+play.clickPointAuto = function (x,y){
+	var key=play.nowManKey;
+	var man=com.mans[key];
+	var pace=man.x+""+man.y
+	delete play.map[man.y][man.x];
+	play.map[y][x] = key;
+	com.showPane(man.x ,man.y,x,y)
+	man.x = x;
+	man.y = y;
+	man.alpha = 1;
+	play.pace.push(pace+x+y);
+	play.nowManKey = false;
+	com.dot.dots = [];
+	com.show();
 }
 
 // Ai tự động di chuyển quân cờ
@@ -347,6 +400,26 @@ play.checkFoul = function(){
 
 play.AIclickMan = function (key,x,y){
 	var man = com.mans[key];
+
+	// Day quan
+	const nowMan = play.nowManKey ? com.mans[play.nowManKey] : {}
+	if (nowMan.pater?.toLowerCase() == 't') {
+		if (play.nowManKey != key) {
+			let directionX = x, directionY = y
+			if (nowMan.x == man.x) {
+				directionY = nowMan.y < man.y ? y+1 : y-1
+			} else if (nowMan.y == man.y) {
+				directionX = nowMan.x < man.x ? x+1 : x-1
+			}
+
+			const tempKey = play.nowManKey;
+			play.nowManKey = key;
+			play.AIclickPoint(directionX, directionY)
+			play.nowManKey = tempKey;
+			play.AIclickPoint(x, y)
+		}
+		return
+	}
 	
 	// ăn quân
 	man.isShow = false;
